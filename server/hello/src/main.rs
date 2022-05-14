@@ -17,12 +17,16 @@ fn general_not_found(req: &Request) -> String {
     format!("I couldn't find '{}'. Try something else?", req.uri())
 }
 
+#[catch(404)]
+fn error_404(req: &Request) -> String {
+    format!("I couldn't find YOUR THING: '{}'. Try something else?", req.uri())
+}
+
 #[launch]
 fn rocket() -> _ {
     rocket::build()
-        .register("/", catchers![general_not_found])
-        .mount("/", routes![index])
-        .mount("/hello", routes![hello])
+        .register("/", catchers![general_not_found, error_404])
+        .mount("/", routes![index, hello])
 }
 
 
