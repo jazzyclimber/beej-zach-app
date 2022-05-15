@@ -1,11 +1,11 @@
 #[macro_use] extern crate rocket;
 use rocket::Request;
-use rocket::{Rocket, Build};
+use rocket::fs::{FileServer, relative};
 
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
-}
+// #[get("/")]
+// fn index() -> (ContentType, ) {
+//     "Hello, world!"
+// }
 
 #[get("/hello")]
 fn hello() -> &'static str {
@@ -26,7 +26,8 @@ fn error_404(req: &Request) -> String {
 fn rocket() -> _ {
     rocket::build()
         .register("/", catchers![general_not_found, error_404])
-        .mount("/", routes![index, hello])
+        .mount("/", routes![hello])
+        .mount("/", FileServer::from(relative!("routerTest/dist/")))
 }
 
 
