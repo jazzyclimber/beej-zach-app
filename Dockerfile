@@ -9,18 +9,25 @@ WORKDIR /app
 RUN npm install
 RUN npm run build
 
-# APP STUFF2
-FROM node:17.3.0 as moz-test
+# RouterTest Stuff
+FROM node:17.3.0 as router-test
 
-COPY moz-todo-svelte /moz-todo-svelte
-WORKDIR /moz-todo-svelte
+COPY routerTest /routerTest
+WORKDIR /routerTest
 RUN npm install
+
+# APP STUFF2
+# FROM node:17.3.0 as moz-test
+
+# COPY moz-todo-svelte /moz-todo-svelte
+# WORKDIR /moz-todo-svelte
+# RUN npm install
 
 # SERVER STUFF
 FROM rust:1.60.0 as debug
 
 # COPY --from=appDebug /app/ /hello/app/
-COPY --from=moz-test /moz-todo-svelte /hello/moz-todo-svelte/
+COPY --from=router-test /routerTest /hello/routerTest/
 
 COPY server/hello/ /hello
 WORKDIR /hello
@@ -28,7 +35,7 @@ RUN cargo install cargo-watch
 RUN cargo build
 ENV ROCKET_ADDRESS=0.0.0.0
 
-RUN apt-update -y && apt install vim -y  
+# RUN apt-update -y && apt install vim -y  
 
 EXPOSE 8000
 

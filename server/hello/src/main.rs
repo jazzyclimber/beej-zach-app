@@ -27,7 +27,7 @@ fn rocket() -> _ {
     rocket::build()
         .register("/", catchers![general_not_found, error_404])
         .mount("/", routes![hello])
-        .mount("/", FileServer::from(relative!("moz-todo-svelte/public/")))
+        .mount("/", FileServer::from(relative!("routerTest/dist/")))
 }
 
 
