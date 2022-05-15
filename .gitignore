@@ -1,2 +1,5 @@
 server/hello/target
 server/hello/Cargo.lock
+*/node_modules
+*/package-lock.json
+*/.svelte-kit
